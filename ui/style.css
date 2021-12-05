@@ -1,0 +1,323 @@
+/* FONTS */
+@font-face {
+  font-family: "AvrileSans-Medium";
+  src: url('./assets/fonts/AvrileSans-Medium.ttf');
+}
+
+@font-face {
+  font-family: "Chalet-Comprime";
+  src: url('./assets/fonts/Chalet-Comprime.ttf');
+}
+
+@font-face {
+  font-family: 'PT-Sans-Bold';
+  src: url('./assets/fonts/PT-Sans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'PT-Sans-Caption';
+  src: url('./assets/fonts/PT-Sans-Caption.ttf');
+}
+
+@font-face {
+  font-family: 'Tanseek';
+  src: url('./assets/fonts/tanseek-modern-pro-arabic-bold.ttf');
+}
+
+/* ROOT */
+:root {
+  /* Vars */
+  --header-font-size: 90px;
+
+  /* Colors */
+  --blue: #000000;
+  --green: #3cb371;
+  --white: white;
+  --midgray: #636e72;
+  --darkgray: #2d3436;
+  --red: red;
+  --black: #000000;
+  --background: rgba(25, 25, 25, 0.8);
+  --button: rgb(15, 15, 15);
+  --hoveredButton: rgba(33, 165, 23, 0.6);
+  --text: rgba(255, 255, 255, 0.85);
+}
+
+.color-0 {
+  color: #ffffff;
+}
+.color-1 {
+  color: #ff4444;
+}
+.color-2 {
+  color: #2ecc71;
+}
+.color-3 {
+  color: #e07502;
+}
+.color-4 {
+  color: #0099cc;
+}
+.color-5 {
+  color: #33b5e5;
+}
+.color-6 {
+  color: #aa00ff;
+}
+.color-7 {
+  color: rgb(190, 190, 190);
+}
+.color-8 {
+  color: #cc0000;
+}
+.color-9 {
+  color: #cc0068;
+}
+
+/* BASE DATA */
+html {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Progress Bar */
+#progressBar {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  font-family: "ChaletComprime";
+  font-size: 30px;
+  overflow: hidden;
+}
+
+.ui-label {
+  font-family: "PT-Sans-Caption";
+  /* background-color: red; */
+  font-size: 20px;
+  width: 400px;
+  text-align: center;
+}
+
+.ui-dial {
+  position: absolute;
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.ui-dial svg {
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+
+.ui-dial svg circle {
+  fill: transparent;
+}
+
+.ui-dial svg circle:last-child {
+  z-index: 10;
+}
+
+.ui-dial.done {
+  -webkit-animation: done 200ms ease 0ms forwards;
+  animation: done 200ms ease 0ms forwards;
+}
+
+.ui-dial .ui-indicator {
+  position: absolute;
+  color: #fff;
+  font-family: "AvrileSans-Medium";
+  font-size: 14px;
+}
+
+.ui-dial .ui-label {
+  position: absolute;
+  color: #fff;
+}
+
+.ui-dial.label-bottom .ui-label {
+  top: 100%;
+  margin: 20px 0;
+}
+.ui-dial.label-right .ui-label {
+  left: 100%;
+  margin: 0 20px;
+}
+
+@-webkit-keyframes done {
+  from {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+  }
+
+  to {
+      opacity: 0;
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+  }
+}
+
+@keyframes done {
+  from {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+  }
+
+  to {
+      opacity: 0;
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+  }
+}
+
+/* MENU */
+#menu {
+  width: 100%;
+  height: 100%;
+}
+
+#base {
+  position: absolute;
+  width: 20%;
+  font-family: 'Tanseek';
+  background-color: rgba(17, 17, 17, 0.8) !important;
+}
+
+#header {
+  font-size: 30px;
+  font-weight: var(--header-font-weight);
+  /* background-color: red; */
+  /* padding: 15px; */
+  text-align: center;
+  color: var(--text);
+}
+
+#body {
+  position: relative;
+  margin: 1px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+#body::-webkit-scrollbar {
+  width: 5px;
+}
+
+#body::-webkit-scrollbar-thumb {
+  background: rgba(223, 223, 223, 1) !important;
+}
+
+/* BUTTON CLASSES */
+.menu_button {
+  padding: 12px;
+  text-align: left;
+  background-color: var(--button);
+  color: var(--text);
+  font-size: 22px;
+  margin: 5px;
+}
+
+.menu_button_hovered {
+  background-color: var(--hoveredButton) !important;
+}
+
+.button_text {
+  margin-top: -7px;
+}
+
+/* CHECKBOX CLASSES */
+.menu_checkbox {
+  padding: 12px;
+  text-align: left;
+  font-size: 22px;
+  background-color: var(--button);
+  color: var(--text);
+  margin: 5px;
+}
+
+.menu_checkbox_hovered {
+  background-color: var(--hoveredButton) !important;
+}
+
+.menu_checkbox_icon {
+  position: absolute;
+  right: 25px;
+  margin-top: -22px;
+}
+
+/* LIST CLASSES */
+.menu_list {
+  padding: 12px;
+  text-align: center;
+  background-color: var(--button);
+  color: var(--text);
+  font-size: 22px;
+  margin: 5px;
+}
+
+.menu_list_hovered {
+  background-color: var(--hoveredButton) !important;
+}
+
+.menu_list_icon_left {
+  position: absolute;
+  left: 25px;
+  margin-top: 3px;
+}
+.menu_list_icon_right {
+  position: absolute;
+  right: 25px;
+  margin-top: 3px;
+}
+
+/* POSITION CLASSES */
+.top-left {
+  top: 50px;
+  left: 20px;
+}
+.top-right {
+  top: 5px;
+  right: 5px;
+}
+.middle-left {
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+}
+.middle-right {
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+}
+.bottom-left {
+  bottom: 5px;
+  left: 5px;
+}
+.bottom-right {
+  bottom: 5px;
+  right: 5px;
+}

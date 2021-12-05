@@ -1,0 +1,119 @@
+{
+  "progressConfig": {
+    "startPercentage": 0,
+    "stopPercentage": 100,
+    "duratation": 5000,
+    "colour": "rgba(255, 255, 255, 1.0)",
+    "backgroundColour": "rgba(130, 130, 130, 0.7)",
+    "x": 0.5,
+    "y": 0.5,
+    "rotation": 0,
+    "maxAngle": 360,
+    "radius": 25,
+    "stroke": 7.5,
+    "disableControls": {
+      "mouse": false,
+      "player": false,
+      "vehicle": false
+    },
+    "useTime": true,
+    "usePercent": false
+  },
+  "animals": [
+    {"model": "a_c_deer", "type": "Deer"},
+    {"model": "a_c_boar", "type": "Boar"},
+    {"model": "a_c_mtlion", "type": "Mountain Lion"},
+    {"model": "a_c_coyote", "type": "Coyote"},
+    {"model": "a_c_rabbit_01", "type": "Rabbit"},
+    {"model": "a_c_cormorant", "type": "Pidgeon"},
+    {"model": "a_c_chickenhawk", "type": "Hawk"}
+  ],
+  "manual": {
+    "huntingPoints": [
+      {"x": -1133.44, "y": 4605.55, "z": 144.96},
+      {"x": 1996.02, "y": 4982.71, "z": 40.63}
+    ],
+    "huntRadius": 400,
+    "animalLimit": 5,
+    "fleeDist": 25
+  },
+  "caliberResults": {
+    "perfect": [
+      "WEAPON_SNIPERRIFLE",
+      "WEAPON_MARKSMANRIFLE",
+      "WEAPON_MARKSMANRIFLE_MK2"
+    ],
+    "good": [
+      "WEAPON_ASSAULTRIFLE",
+      "WEAPON_ASSAULTRIFLE_MK2",
+      "WEAPON_CARBINERIFLE",
+      "WEAPON_CARBINERIFLE_MK2",
+      "WEAPON_SPECIALCARBINE",
+      "WEAPON_SPECIALCARBINE_MK2",
+      "WEAPON_MUSKET"
+    ],
+    "bad": [
+      "WEAPON_ASSAULTSHOTGUN",
+      "WEAPON_BULLUPSHOTGUN",
+      "WEAPON_DBSHOTGUN",
+      "WEAPON_HEAVYSHOTGUN",
+      "WEAPON_PUMPSHOTGUN",
+      "WEAPON_PUMPSHOTGUN_MK2",
+      "WEAPON_SAWNOFFSHOTGUN",
+      "WEAPON_SWEEPERSHOTGUN",
+      "WEAPON_RAILGUN",
+      "WEAPON_MINIGUN",
+      "WEAPON_MG",
+      "WEAPON_COMBATMG",
+      "WEAPON_COMBATMG_MK2",
+      "WEAPON_SMG",
+      "WEAPON_SMG_MK2",
+      "WEAPON_PISTOL",
+      "WEAPON_PISTOL_MK2",
+      "WEAPON_COMBATPISTOL",
+      "WEAPON_VINTAGEPISTOL",
+      "WEAPON_REVOLVER",
+      "WEAPON_REVOLVER_MK2",
+      "WEAPON_PISTOL50",
+      "WEAPON_MARKSMANPISTOL",
+      "WEAPON_HEAVYPISTOL",
+      "WEAPON_GUSENBERG",
+      "WEAPON_DOUBLEACTION",
+      "WEAPON_COMPACTRIFLE",
+      "WEAPON_BULLPUPRIFLE",
+      "WEAPON_BULLPUPRIFLE_MK2",
+      "WEAPON_ASSAULTSMG",
+      "WEAPON_ADVANCEDRIFLE",
+      "WEAPON_COMBATPDW",
+      "WEAPON_MACHINEPISTOL",
+      "WEAPON_MICROSMG",
+      "WEAPON_MINISMG",
+      "WEAPON_SNSPISTOL",
+      "WEAPON_SNSPISTOL_MK2",
+      "WEAPON_KNIFE",
+      "WEAPON_BATTLEAXE",
+      "WEAPON_BOTTLE",
+      "WEAPON_DAGGER",
+      "WEAPON_HATCHET",
+      "WEAPON_MACHETE",
+      "WEAPON_SWITCHBLADE"
+    ]
+  },
+  "campfire": {
+    "chairModel": "prop_skid_chair_02",
+    "cookItems": [
+      {"name": "raw_venison_meat", "label": "Raw Venison Meat"},
+      {"name": "raw_pork_meat", "label": "Raw Pork Meat"},
+      {"name": "raw_lion_meat", "label": "Raw Lion Meat"},
+      {"name": "raw_coyote_meat", "label": "Raw Coyote Meat"},
+      {"name": "raw_mutton_meat", "label": "Raw Mutton Meat"},
+      {"name": "raw_pidgeon_meat", "label": "Raw Pidgeon Meat"},
+      {"name": "raw_hawk_meat", "label": "Raw Hawk Meat"}
+    ],
+    "menuPosition": "middle-left"
+  },
+  "fence": {
+    "position": {"x": -679.41, "y": 5834.04, "z": 17.33},
+    "menuPosition": "middle-left"
+  }
+}

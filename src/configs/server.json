@@ -1,0 +1,61 @@
+{
+  "debug": false,
+  "tentModel": "ba_prop_battle_tent_01",
+  "campfireModel": "prop_beach_fire`",
+  "items": {
+    "rawMeats": ["raw_venison_meat", "raw_pork_meat", "raw_lion_meat", "raw_coyote_meat", "raw_mutton_meat", "raw_pidgeon_meat", "raw_hawk_meat"],
+    "buying": [
+      {"name": "hunting_tent", "label": "Hunting Tent", "price": 0},
+      {"name": "campfire_kit", "label": "Campfire Kit", "price": 0}
+    ],
+    "selling": {
+      "meats": [
+        {"name": "raw_venison_meat", "label": "Raw Venison Meat", "price": 0},
+        {"name": "raw_pork_meat", "label": "Raw Pork Meat", "price": 100},
+        {"name": "raw_lion_meat", "label": "Raw Lion Meat", "price": 0},
+        {"name": "raw_coyote_meat", "label": "Raw Coyote Meat", "price": 0},
+        {"name": "raw_mutton_meat", "label": "Raw Mutton Meat", "price": 0},
+        {"name": "raw_pidgeon_meat", "label": "Raw Pidgeon Meat", "price": 0},
+        {"name": "raw_hawk_meat", "label": "Raw Hawk Meat", "price": 0}
+      ],
+      "items": [
+        {"name": "deer_pelt_ruined", "label": "Deer Pelt (Ruined)", "price": 0},
+        {"name": "deer_pelt_bad", "label": "Deer Pelt (Bad)", "price": 0},
+        {"name": "deer_pelt_good", "label": "Deer Pelt (Good)", "price": 0},
+        {"name": "deer_pelt_perfect", "label": "Deer Pelt (Perfect)", "price": 0},
+        
+        {"name": "boar_pelt_ruined", "label": "Boar Pelt (Ruined)", "price": 0},
+        {"name": "boar_pelt_bad", "label": "Boar Pelt (Bad)", "price": 0},
+        {"name": "boar_pelt_good", "label": "Boar Pelt (Good)", "price": 0},
+        {"name": "boar_pelt_perfect", "label": "Boar Pelt (Perfect)", "price": 0},
+        
+        {"name": "lion_pelt_ruined", "label": "Mountain Lion Pelt (Ruined)", "price": 0},
+        {"name": "lion_pelt_bad", "label": "Mountain Lion Pelt (Bad)", "price": 0},
+        {"name": "lion_pelt_good", "label": "Mountain Lion Pelt (Good)", "price": 0},
+        {"name": "lion_pelt_perfect", "label": "Mountain Lion Pelt (Perfect)", "price": 0},
+        
+        {"name": "coyote_pelt_ruined", "label": "Coyote Pelt (Ruined)", "price": 0},
+        {"name": "coyote_pelt_bad", "label": "Coyote Pelt (Bad)", "price": 0},
+        {"name": "coyote_pelt_good", "label": "Coyote Pelt (Good)", "price": 0},
+        {"name": "coyote_pelt_perfect", "label": "Coyote Pelt (Perfect)", "price": 0},
+        
+        {"name": "rabbit_pelt_ruined", "label": "Rabbit Pelt (Ruined)", "price": 0},
+        {"name": "rabbit_pelt_bad", "label": "Rabbit Pelt (Bad)", "price": 0},
+        {"name": "rabbit_pelt_good", "label": "Rabbit Pelt (Good)", "price": 0},
+        {"name": "rabbit_pelt_perfect", "label": "Rabbit Pelt (Perfect)", "price": 0},
+        
+        {"name": "pidgeon_feathers_ruined", "label": "Pidgeon Pelt (Ruined)", "price": 0},
+        {"name": "pidgeon_feathers_bad", "label": "Pidgeon Pelt (Bad)", "price": 0},
+        {"name": "pidgeon_feathers_good", "label": "Pidgeon Pelt (Good)", "price": 0},
+        {"name": "pidgeon_feathers_perfect", "label": "Pidgeon Pelt (Perfect)", "price": 0},
+        
+        {"name": "hawk_feathers_ruined", "label": "Hawk Pelt (Ruined)", "price": 0},
+        {"name": "hawk_feathers_bad", "label": "Hawk Pelt (Bad)", "price": 0},
+        {"name": "hawk_feathers_good", "label": "Hawk Pelt (Good)", "price": 0},
+        {"name": "hawk_feathers_perfect", "label": "Hawk Pelt (Perfect)", "price": 0},
+        
+        {"name": "deer_horn", "label": "Deer Horn", "price": 0}
+      ]
+    }
+  }
+}
