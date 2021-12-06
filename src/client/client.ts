@@ -12,7 +12,7 @@ import config from "../configs/client.json";
 export class Client {
     public config: Record<string, any> = {};
     public QBCore: Record<string, any> = {};
-    public started: boolean = true;
+    public started: boolean = false;
 
     constructor() {
         this.config = config;
