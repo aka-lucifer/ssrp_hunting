@@ -23,23 +23,6 @@ export class AnimalManager {
     // Enable ped footsteps for tracking
     SetForcePedFootstepsTracks(true)
 
-    // Hunting Zone Creation
-    this.client.config.manual.huntingPoints.forEach(zone => {
-      const blip1 = AddBlipForCoord(zone.x, zone.y, zone.z);
-      const radarBlip = new Blip(blip1);
-      radarBlip.Sprite = BlipSprite.SonicWave;
-      radarBlip.Color = 27;
-      radarBlip.IsShortRange = true;
-
-      const blip2 = AddBlipForCoord(zone.x, zone.y, zone.z);
-      const zoneBlip = new Blip(blip2);
-      zoneBlip.Sprite = 442;
-      zoneBlip.Color = 27;
-      zoneBlip.Name = "Hunting Zone";
-      zoneBlip.Scale = 0.8;
-      zoneBlip.IsShortRange = true;
-    })
-
     // Events
     on(Events.gameEventTriggered, this.EVENT_GameEvents.bind(this));
 

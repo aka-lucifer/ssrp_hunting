@@ -16,6 +16,7 @@ export class FenceManager {
   private sellMenu: Submenu;
   private animalMeatMenu: Submenu;
   private animalItemMenu: Submenu;
+  private zoneBlips: Blip[] = [];
 
   // Tick Data
   private fenceTick: number;
@@ -88,6 +89,26 @@ export class FenceManager {
                 if (Game.isControlJustPressed(InputMode.MouseAndKeyboard, Control.Detonate)) {
                   this.client.started = !this.client.started;
                   if (this.client.started) {
+                    // Hunting Zone Creation
+                    this.client.config.manual.huntingPoints.forEach(zone => {
+                      const blip1 = AddBlipForCoord(zone.x, zone.y, zone.z);
+                      const radarBlip = new Blip(blip1);
+                      radarBlip.Sprite = BlipSprite.SonicWave;
+                      radarBlip.Color = 27;
+                      radarBlip.IsShortRange = true;
+
+                      const blip2 = AddBlipForCoord(zone.x, zone.y, zone.z);
+                      const zoneBlip = new Blip(blip2);
+                      zoneBlip.Sprite = 442;
+                      zoneBlip.Color = 27;
+                      zoneBlip.Name = "Hunting Zone";
+                      zoneBlip.Scale = 0.8;
+                      zoneBlip.IsShortRange = true;
+
+                      this.zoneBlips.push(radarBlip);
+                      this.zoneBlips.push(zoneBlip);
+                    })
+
                     this.client.QBCore.Functions.Notify("You've started hunting", "success", 3000);
                   } else {
                     this.client.QBCore.Functions.Notify("You've stopped hunting", "error", 3000);
