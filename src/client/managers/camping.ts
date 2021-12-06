@@ -42,10 +42,6 @@ export class CampingManager {
         emitNet(Events.cookMeat, item);
       })
     })
-
-    RegisterCommand("open", async() => {
-      this.cookingMenu.Open();
-    }, false);
   }
 
   // Events
