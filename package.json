@@ -1,9 +1,9 @@
 {
-  "name": "qb-hunting",
+  "name": "lx_hunting",
   "version": "1.0.0",
-  "description": "QB Hunting made for SunstoneRP",
+  "description": "LX Hunting made for SunstoneRP",
   "main": "index.js",
-  "repository": "https://github.com/d0p3t/fivem-ts-boilerplate",
+  "repository": "https://github.com/aka-lucifer/lx_hunting",
   "author": "akaLucifer#0103",
   "scripts": {
     "build": "webpack --mode production",

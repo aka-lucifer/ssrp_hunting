@@ -20,7 +20,7 @@ export class Server {
 
         // QB Processor
         if (GetResourceState("qb-core") == "started") { // If QB Core Already Started
-            this.QBCore = global.exports["qb-core"].GetSharedObject();
+            this.QBCore = global.exports["qb-core"].GetCoreObject();
             this.RegisterItems();
         }
 
@@ -41,7 +41,7 @@ export class Server {
     // Events
     private EVENT_QBCoreStarted(resourceName: string): void { // FOR QB-CORE RESTARTING
         if ("qb-core" == resourceName) {
-            this.QBCore = global.exports[resourceName].GetSharedObject();
+            this.QBCore = global.exports[resourceName].GetCoreObject();
             this.RegisterItems();
         }
 
@@ -284,7 +284,7 @@ export class Server {
             Inform("Tent Manager", `Picking up Tent (${JSON.stringify(tentData)})`);
             await campingManager.pickupTent(tentData.netId);
             qbPlayer.Functions.AddItem("hunting_tent", 1);
-            player.TriggerEvent('inventory:client:ItemBox', this.QBCore.Shared.Items["hunting_tent"], "add");
+            await player.TriggerEvent('inventory:client:ItemBox', this.QBCore.Shared.Items["hunting_tent"], "add");
         }        
     }
 
@@ -307,7 +307,7 @@ export class Server {
             if (newItem) {
                 const isItem = await this.isItem(newItem);
                 if (isItem) {
-                    player.TriggerEvent("QBCore:Notify", `Cooking ${itemData.label}...`, "success", 3000);
+                    await player.TriggerEvent("QBCore:Notify", `Cooking ${itemData.label}...`, "success", 3000);
                     await Delay(4500);
                     const qbPlayer = this.QBCore.Functions.GetPlayer(player.GetHandle)
                     if (qbPlayer.Functions.RemoveItem(itemData.name, 1)) {
@@ -318,7 +318,7 @@ export class Server {
                 }
             }
         } else {
-            player.TriggerEvent("QBCore:Notify", `You don't have any ${itemData.label}!`, "error", 2000);
+            await player.TriggerEvent("QBCore:Notify", `You don't have any ${itemData.label}!`, "error", 2000);
         }
     }
 
@@ -329,11 +329,11 @@ export class Server {
             console.log(`Cash: ${qbPlayer.Functions.GetMoney("cash")} | Item Data: ${JSON.stringify(itemData)}`);
             if (qbPlayer.Functions.GetMoney("cash") >= itemData.price) {
                 qbPlayer.Functions.RemoveMoney("cash", itemData.price, `You bought a (${itemData.label}).`)
-                player.TriggerEvent("QBCore:Notify", `You bought a ${itemData.label}`, "success", 3000);
+                await player.TriggerEvent("QBCore:Notify", `You bought a ${itemData.label}`, "success", 3000);
                 qbPlayer.Functions.AddItem(itemData.name, 1);
                 TriggerClientEvent('inventory:client:ItemBox', player.GetHandle, this.QBCore.Shared.Items[itemData.name], "add")
             } else {
-                player.TriggerEvent("QBCore:Notify", "Insufficient Funds!", "error", 2000);
+                await player.TriggerEvent("QBCore:Notify", "Insufficient Funds!", "error", 2000);
             }
         }
     }
@@ -345,7 +345,7 @@ export class Server {
         if (hasItem) {
             const isItem = await this.isItem(itemData.name);
             if (isItem) {
-                player.TriggerEvent("QBCore:Notify", `Selling ${itemData.label}...`, "success", 3000);
+                await player.TriggerEvent("QBCore:Notify", `Selling ${itemData.label}...`, "success", 3000);
                 await Delay(4500);
                 const qbPlayer = this.QBCore.Functions.GetPlayer(player.GetHandle)
                 if (qbPlayer.Functions.RemoveItem(itemData.name, 1)) {
@@ -354,7 +354,7 @@ export class Server {
                 }
             }
         } else {
-            player.TriggerEvent("QBCore:Notify", `You don't have any ${itemData.label}!`, "error", 2000);
+            await player.TriggerEvent("QBCore:Notify", `You don't have any ${itemData.label}!`, "error", 2000);
         }
     }
 
@@ -373,13 +373,14 @@ export class Server {
             const pos = player.Position();
             const qbPlayer = this.QBCore.Functions.GetPlayer(source)
             if (qbPlayer.Functions.RemoveItem(item.name, 1, item.slot)) {
-                player.Ped();
-                player.TriggerEvent("QBCore:Notify", "Putting up tent...", "success", 2000);
+                await player.Ped();
+                await player.TriggerEvent("QBCore:Notify", "Putting up tent...", "success", 2000);
                 await Delay(500)
                 FreezeEntityPosition(player.ped, true);
-                player.TriggerEvent(Events.progressBar, 5000, {player: true});
+                await player.TriggerEvent(Events.progressBar, 5000, {player: true});
                 await Delay(5000); // Wait until it's scrapped
-                const tent = await campingManager.createTent(player, new Vector3(pos.x + 1.0, pos.y + 1.0, pos.z), player.Heading());
+                const tent = await campingManager.createTent(player, new Vector3(pos.x + 1, pos.y + 1, pos.z - 0.3), player.Heading());
+                // const tent = await campingManager.createTent(player, new Vector3(pos.x + 1.0, pos.y + 1.0, pos.z), player.Heading());
                 FreezeEntityPosition(player.ped, false);
                 if (this.config.debug) Inform("Hunting Tent (Item)", `Created a tent at (${JSON.stringify(tent)})`);
             }
@@ -388,14 +389,19 @@ export class Server {
         this.QBCore.Functions.CreateUseableItem("campfire_kit", async(source: string, item: Record<string, any>) => {
             const player = await playerManager.GetPlayer(source);
             const pos = player.Position();
+
             const qbPlayer = this.QBCore.Functions.GetPlayer(source)
+
             if (qbPlayer.Functions.RemoveItem(item.name, 1, item.slot)) {
                 player.Ped();
-                player.TriggerEvent("QBCore:Notify", "Putting up campfire...", "success", 2000);
+                await player.TriggerEvent("QBCore:Notify", "Putting up campfire...", "success", 2000);
                 FreezeEntityPosition(player.ped, true);
-                player.TriggerEvent(Events.progressBar, 5000, {player: true});
+
+                await player.TriggerEvent(Events.progressBar, 5000, {player: true});
+
                 await Delay(5000); // Wait until it's scrapped
-                const fire = await campingManager.createFire(player, new Vector3(pos.x + 1.0, pos.y + 1.0, pos.z), player.Heading());
+
+                const fire = await campingManager.createFire(player, new Vector3(pos.x, pos.y + 1, pos.z - 0.3), player.Heading());
                 FreezeEntityPosition(player.ped, false);
                 if (this.config.debug) Inform("Campfire Kit (Item)", `Created a campfire at (${JSON.stringify(fire)})`);
             }

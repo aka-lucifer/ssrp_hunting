@@ -1,5 +1,5 @@
 import { Vector3 } from "fivem-js";
-import { Delay, GetHash, Inform } from "../../utils";
+import { Delay, GetHash, Inform, Random } from "../../utils";
 import { campingManager } from "../../server";
 import { Player } from "../../models/player";
 

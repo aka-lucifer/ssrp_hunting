@@ -5,8 +5,8 @@ import { Progress } from "../models/ui/progress";
 import { Menu } from "../models/ui/menu";
 import { Events } from "../../shared/enums/events";
 import { Client } from "../client";
-import { Delay, DisplayHelp, Dist, GetHash, Inform, NumToVector3 } from "../utils";
-import { Control, Game, InputMode, Model, Prop, Vector3, World } from "fivem-js";
+import { Delay, DisplayHelp, Dist, GetHash, Inform, LoadAnim, NumToVector3, PlayAnim } from "../utils";
+import { Bone, Control, EntityBone, Game, InputMode, Model, Prop, Vector3, World } from "fivem-js";
 
 export class CampingManager {
   // Core Data
@@ -67,19 +67,19 @@ export class CampingManager {
               tentPos = new Vector3(tentData.position.x, tentData.position.y, tentData.position.z);
             }
 
-            if (this.tentInteractionTick == undefined) this.tentInteractionTick = setTick(() => {
+            if (this.tentInteractionTick == undefined) this.tentInteractionTick = setTick(async() => {
               DisplayHelp(!this.tentHiding ? "~INPUT_CONTEXT~ Hide\n~INPUT_DETONATE~ Rest\n~INPUT_ENTER~ Pickup" : "~INPUT_CONTEXT~ Exit\n~INPUT_DETONATE~ Rest\n~INPUT_ENTER~ Pickup");
 
               if (Game.isControlJustPressed(InputMode.MouseAndKeyboard, Control.Context) || Game.isDisabledControlJustPressed(InputMode.MouseAndKeyboard, Control.Context)) {
                 if (!this.tentHiding) {NetworkFadeOutEntity(Game.PlayerPed.Handle, false, true);
                   this.client.QBCore.Functions.Notify("You started hiding", "success", 3000);
                   ForcePedMotionState(Game.PlayerPed.Handle, 1110276645, false, false, false);
-                  FreezeEntityPosition(Game.PlayerPed.Handle, true);
+                  // FreezeEntityPosition(Game.PlayerPed.Handle, true);
                 } else {
                   NetworkFadeInEntity(Game.PlayerPed.Handle, true);
                   ForcePedMotionState(Game.PlayerPed.Handle, 247561816, true, true, false);
                   this.client.QBCore.Functions.Notify("You're stopped hiding", "success", 3000);
-                  FreezeEntityPosition(Game.PlayerPed.Handle, false);
+                  // FreezeEntityPosition(Game.PlayerPed.Handle, false);
                 }
 
                 this.tentHiding = !this.tentHiding;
@@ -108,8 +108,12 @@ export class CampingManager {
 
               if (Game.isControlJustPressed(InputMode.MouseAndKeyboard, Control.Enter)) {
                 emitNet(Events.pickupTent, tentData);
-                clearTick(this.tentInteractionTick);
-                this.tentInteractionTick = undefined;
+
+                while (this.tentInteractionTick != undefined) {
+                  clearTick(this.tentInteractionTick);
+                  this.tentInteractionTick = undefined;
+                  await Delay(0);
+                }
               }
             });
           }
@@ -147,15 +151,20 @@ export class CampingManager {
                 if (this.chair == undefined) {
                   const myHeading = Game.PlayerPed.Heading;
                   this.chairState = "CREATING";
-                  this.client.QBCore.Functions.Notify("Pulling out a chair", "success", 3000)
+                  this.client.QBCore.Functions.Notify("Pulling out a chair", "success", 3000);
+
                   await Delay(4500);
-                  this.chair = await World.createProp(new Model(this.client.config.campfire.chairModel), Game.PlayerPed.Position, false, true);
-                  SetEntityHeading(this.chair.Handle, myHeading);
-                  this.chair.placeOnGround();
-                  this.chairState = "CREATED";
-                  const chairPos = NumToVector3(GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0.0, -0.1, -0.5));
-                  ClearPedTasks(Game.PlayerPed.Handle)
-                  TaskStartScenarioAtPosition(PlayerPedId(), "PROP_HUMAN_SEAT_CHAIR_MP_PLAYER", chairPos.x, chairPos.y, chairPos.z, Game.PlayerPed.Handle, 0, true, false);
+
+                  // console.log(`Heading: ${this.chair.Heading}`);
+                  const loadedAnim = await LoadAnim("timetable@ron@ig_3_couch");
+                  if (loadedAnim) {
+                    this.chair = await World.createProp(new Model(this.client.config.campfire.chairModel), new Vector3(1.0, 1.0, 1.0), false, true);
+                    AttachEntityToEntity(this.chair.Handle, Game.PlayerPed.Handle, GetPedBoneIndex(Game.PlayerPed.Handle, 0), 0, 0.0, -0.22, 3.4, 0.4, 180.0, false, false, false, false, 2, true);
+                    this.chair.markAsNoLongerNeeded();
+                    this.chairState = "CREATED";
+                    const animLength = GetAnimDuration("timetable@ron@ig_3_couch", "base");
+                    PlayAnim(Game.PlayerPed, "timetable@ron@ig_3_couch", "base", 1, animLength, 1.0, 4.0, 0, false, false, false);
+                  }
                 } else {
                   this.chair.delete();
                   this.chairState = "NONE";
@@ -170,8 +179,12 @@ export class CampingManager {
 
               if (Game.isControlJustPressed(InputMode.MouseAndKeyboard, Control.Enter)) {
                 emitNet(Events.destroyFire, fireData);
-                clearTick(this.tentInteractionTick);
-                this.tentInteractionTick = undefined;
+
+                while (this.fireInteractionTick != undefined) {
+                  clearTick(this.fireInteractionTick);
+                  this.fireInteractionTick = undefined;
+                  await Delay(0);
+                }
               }
             });
           }
@@ -183,8 +196,8 @@ export class CampingManager {
           if (waitTimer < 500) {
             waitTimer = 500;
             firePos = undefined;
-            clearTick(this.tentInteractionTick);
-            this.tentInteractionTick = undefined;
+            clearTick(this.fireTick);
+            this.fireTick = undefined;
           }
         }
       }

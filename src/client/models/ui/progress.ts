@@ -35,29 +35,6 @@ export class Progress {
 
     this.running = true;
 
-    if (this.configuration.disabler) {
-      this.disablerTick = setTick(() => {
-        if (this.running) {
-          if (this.configuration.disabler.mouse) {
-            DisableControlAction(1, Control.LookLeftRight, true);
-            DisableControlAction(1, Control.LookUpDown, true);
-            DisableControlAction(1, Control.VehicleMouseControlOverride, true);
-          } else if (this.configuration.disabler.player) {
-            DisableControlAction(0, Control.Sprint, true);
-            DisableControlAction(0, Control.MoveLeftRight, true);
-            DisableControlAction(0, Control.MoveUpDown, true);
-            DisableControlAction(0, Control.Duck, true);
-          } else if (this.configuration.disabler.vehicle) {
-            DisableControlAction(0, Control.VehicleAccelerate, true);
-            DisableControlAction(0, Control.VehicleBrake, true);
-            DisableControlAction(0, Control.VehicleExit, true);
-          }
-        } else {
-          clearTick(this.disablerTick);
-        }
-      })
-    }
-
     // NUI Callbacks
     Utils.RegisterNuiCallback("progress_start", (data, cb) => {
       if (this.onStart) {

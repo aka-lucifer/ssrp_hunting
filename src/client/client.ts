@@ -19,7 +19,7 @@ export class Client {
         
         // QB Processor
         if (GetResourceState("qb-core") == "started") { // If QB Core Already Started
-            this.QBCore = global.exports["qb-core"].GetSharedObject();
+            this.QBCore = global.exports["qb-core"].GetCoreObject();
         }
 
         // Events
@@ -35,7 +35,7 @@ export class Client {
     // Events
     private EVENT_QBCoreStarted(resourceName: string): void { // FOR QB-CORE RESTARTING
         if ("qb-core" == resourceName) {
-            this.QBCore = global.exports[resourceName].GetSharedObject();
+            this.QBCore = global.exports[resourceName].GetCoreObject();
         }
     }
 

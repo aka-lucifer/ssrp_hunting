@@ -1,4 +1,5 @@
 {
+  "debug": false,
   "progressConfig": {
     "startPercentage": 0,
     "stopPercentage": 100,

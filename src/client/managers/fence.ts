@@ -95,7 +95,7 @@ export class FenceManager {
                       const radarBlip = new Blip(blip1);
                       radarBlip.Sprite = BlipSprite.SonicWave;
                       radarBlip.Color = 27;
-                      radarBlip.IsShortRange = true;
+                      radarBlip.IsShortRange = false;
 
                       const blip2 = AddBlipForCoord(zone.x, zone.y, zone.z);
                       const zoneBlip = new Blip(blip2);
@@ -103,7 +103,7 @@ export class FenceManager {
                       zoneBlip.Color = 27;
                       zoneBlip.Name = "Hunting Zone";
                       zoneBlip.Scale = 0.8;
-                      zoneBlip.IsShortRange = true;
+                      zoneBlip.IsShortRange = false;
 
                       this.zoneBlips.push(radarBlip);
                       this.zoneBlips.push(zoneBlip);

@@ -39,7 +39,6 @@ export class CampingManager {
       } else {
         const newDist = Dist(player.Position(), this.createdTents[i].position, true);
         if (newDist < dist) {
-          this.createdTents[i]
           closest = this.createdTents[i];
           dist = newDist;
         }
@@ -62,9 +61,10 @@ export class CampingManager {
   }
 
   public async createFire(creator: Player, position: Vector3, heading?: number): Promise<Campfire> {
-    const tentData = new Campfire(creator, position, heading)
-    await tentData.Process()
-    this.createdFires.push(tentData);
+    const campfireData = new Campfire(creator, position, heading);
+    console.log("created campfire");
+    await campfireData.Process();
+    this.createdFires.push(campfireData);
 
     emitNet(Events.syncCampingData, -1, this.createdTents, this.createdFires);
 
@@ -72,7 +72,7 @@ export class CampingManager {
       Inform("Camping Manager (createFire)", `${creator.name} is creating a fire at (${JSON.stringify(position)})`)
     }
     
-    return tentData;
+    return campfireData;
   }
 
   public getNearestFire(player: Player): [number, Campfire] {
@@ -84,7 +84,6 @@ export class CampingManager {
       } else {
         const newDist = Dist(player.Position(), this.createdFires[i].position, true);
         if (newDist < dist) {
-          this.createdFires[i]
           closest = this.createdFires[i];
           dist = newDist;
         }

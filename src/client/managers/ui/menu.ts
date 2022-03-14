@@ -258,107 +258,117 @@ export class MenuManager {
 
     // Controls
     private GoUp() {
-        let prev = hoveredIndex - 1;
-        if (prev < 0) {
-            prev = openedMenu.components.length - 1;
-        }
-
-        hoveredIndex = prev;
-        SendNuiMessage(JSON.stringify({
-            type: "set_menu_option",
-            data: {
-                option: hoveredIndex
+        if (openedMenu != undefined) {
+            let prev = hoveredIndex - 1;
+            if (prev < 0) {
+                prev = openedMenu.components.length - 1;
             }
-        }))
+
+            hoveredIndex = prev;
+            SendNuiMessage(JSON.stringify({
+                type: "set_menu_option",
+                data: {
+                    option: hoveredIndex
+                }
+            }))
+        }
     }
 
     private GoDown() {
-        let next = hoveredIndex + 1;
-        if (next > openedMenu.components.length - 1) {
-            next = 0;
-        }
-
-        hoveredIndex = next;
-        SendNuiMessage(JSON.stringify({
-            type: "set_menu_option",
-            data: {
-                option: hoveredIndex
+        if (openedMenu != undefined) {
+            let next = hoveredIndex + 1;
+            if (next > openedMenu.components.length - 1) {
+                next = 0;
             }
-        }))
+
+            hoveredIndex = next;
+            SendNuiMessage(JSON.stringify({
+                type: "set_menu_option",
+                data: {
+                    option: hoveredIndex
+                }
+            }))
+        }
     }
 
     private GoLeft() {
-        const selected = openedMenu.components[hoveredIndex];
-        if (selected) {
-            if (selected.type == "list") {
-                const comp = components[selected.index];
-                let next = selected.listIndex - 1;
+        if (openedMenu != undefined) {
+            const selected = openedMenu.components[hoveredIndex];
+            if (selected) {
+                if (selected.type == "list") {
+                    const comp = components[selected.index];
+                    let next = selected.listIndex - 1;
 
-                if (next < 0) {
-                    next = selected.list.length - 1;
-                }
-
-                selected.listIndex = next;
-                comp.listIndex = next;
-                SendNuiMessage(JSON.stringify({
-                    type: "set_list_item",
-                    data: {
-                        index: selected.index,
-                        listIndex: next
+                    if (next < 0) {
+                        next = selected.list.length - 1;
                     }
-                }))
+
+                    selected.listIndex = next;
+                    comp.listIndex = next;
+                    SendNuiMessage(JSON.stringify({
+                        type: "set_list_item",
+                        data: {
+                            index: selected.index,
+                            listIndex: next
+                        }
+                    }))
+                }
             }
         }
     }
 
     private GoRight() {
-        const selected = openedMenu.components[hoveredIndex];
-        if (selected) {
-            if (selected.type == "list") {
-                const comp = components[selected.index];
-                let next = selected.listIndex + 1;
+        if (openedMenu != undefined) {
+            const selected = openedMenu.components[hoveredIndex];
+            if (selected) {
+                if (selected.type == "list") {
+                    const comp = components[selected.index];
+                    let next = selected.listIndex + 1;
 
-                if (next > selected.list.length - 1) {
-                    next = 0;
-                }
-
-                selected.listIndex = next;
-                comp.listIndex = next;
-                SendNuiMessage(JSON.stringify({
-                    type: "set_list_item",
-                    data: {
-                        index: selected.index,
-                        listIndex: next
+                    if (next > selected.list.length - 1) {
+                        next = 0;
                     }
-                }))
+
+                    selected.listIndex = next;
+                    comp.listIndex = next;
+                    SendNuiMessage(JSON.stringify({
+                        type: "set_list_item",
+                        data: {
+                            index: selected.index,
+                            listIndex: next
+                        }
+                    }))
+                }
             }
         }
     }
 
     private Enter() {
-        const selected = openedMenu.components[hoveredIndex];
-        if (selected) {
-            if (selected.type == "submenu") {
-                this.OpenMenu(selected.index);
-            } else {
-                const component = components[selected.index];
-                if (selected.type == "checkbox") {
-                    const newState = !component.state;
-                    component.state = newState;
-                    selected.state = newState;
-                    component.action(newState);
-                    SendNuiMessage(JSON.stringify({
-                        type: "set_checkbox_state",
-                        data: {
-                            id: selected.index,
-                            state: newState
-                        }
-                    }))
-                } else if (selected.type == "list") {
-                    const comp = components[selected.index];
-                    comp.action(comp.list[comp.listIndex]);
-                } else if (selected.type == "button") {
-                    components[selected.index].action();
+        if (openedMenu != undefined) {
+            const selected = openedMenu.components[hoveredIndex];
+            if (selected) {
+                if (selected.type == "submenu") {
+                    this.OpenMenu(selected.index);
+                } else {
+                    const component = components[selected.index];
+                    if (selected.type == "checkbox") {
+                        const newState = !component.state;
+                        component.state = newState;
+                        selected.state = newState;
+                        component.action(newState);
+                        SendNuiMessage(JSON.stringify({
+                            type: "set_checkbox_state",
+                            data: {
+                                id: selected.index,
+                                state: newState
+                            }
+                        }))
+                    } else if (selected.type == "list") {
+                        const comp = components[selected.index];
+                        comp.action(comp.list[comp.listIndex]);
+                    } else if (selected.type == "button") {
+                        components[selected.index].action();
+                    }
                 }
             }
         }

@@ -32,18 +32,17 @@ export class AnimalManager {
         const worldPeds = World.getAllPeds();
         worldPeds.forEach(async(worldPed) => {
           if (!worldPed.IsPlayer && !worldPed.IsHuman && GetPedType(worldPed.Handle) == PedTypes.Animal && !worldPed.isDead()) {
-            if (Dist(worldPed.Position, Game.PlayerPed.Position, true) < 50.0) {
+            if (Dist(worldPed.Position, Game.PlayerPed.Position, true) < 200.0) {
               if (!this.nearbyAnimals.includes(worldPed.Handle)) {
                 const [isHuntingAnimal, animalData] = await this.isHuntingAnimal(worldPed);
                 if (isHuntingAnimal) {
-                  // Inform("Animal Tracking (Tick)", `Adding Animal (${worldPed.Handle}) | ${animalData.type}`);
+                  if (this.client.config.debug) Inform("Animal Tracking (Tick)", `Adding Animal (${worldPed.Handle}) | ${animalData.type}`);
                   if (!worldPed.AttachedBlip) {
                     const animalBlip = this.animalBlip(worldPed, animalData.type, false);
                     this.nearbyAnimals.push({
                       type: "world",
                       animalType: animalData.type,
-                      handle: worldPed,
-                      blip: animalBlip
+                      handle: worldPed
                     });
                   }
                 }
@@ -77,12 +76,12 @@ export class AnimalManager {
               this.spawnedAnimals++;
               TaskWanderStandard(spawnedAnimal.Handle, 0, 0);
 
-              const animalBlip = this.animalBlip(spawnedAnimal, animalData.type, true);
+              // const animalBlip = this.animalBlip(spawnedAnimal, animalData.type, true);
               this.nearbyAnimals.push({
                 type: "manual",
                 handle: spawnedAnimal,
-                animalType: animalData.type,
-                blip: animalBlip
+                animalType: animalData.type
+                // blip: animalBlip
               });
             }
           }
@@ -90,7 +89,7 @@ export class AnimalManager {
           this.nearbyAnimals.forEach((element, index) => {
             if (element.type == "manual") {
               element.handle.delete()
-              element.blip.delete();
+              // element.blip.delete();
               this.nearbyAnimals.splice(index, 1);
             }
           })
@@ -146,24 +145,24 @@ export class AnimalManager {
     if (event == "CEventNetworkEntityDamage") {
       const victim = new Ped(args[0])
       const attacker = new Ped(args[1])
-      const isFatal = args[3]
-      const weaponHash = args[4]
-      const isMelee = args[9]
+
+      // console.log("entity dead", victim.Handle, attacker.Handle, attacker.IsPlayer, GetPedType(victim.Handle), PedTypes.Animal, victim.isDead());
 
       if (victim.exists() && attacker.exists()) { // Check if both the attacker and victim exist in our world
         if (victim.Handle != attacker.Handle) { // Check we didn't injure ourselves
           if (GetPedType(victim.Handle) == PedTypes.Animal) {
             const [damaged, boneId] = GetPedLastDamageBone(victim.Handle);
-            if (this.client.config.debug) Inform("Entity Damage", `Victim: ${victim.Handle} | Attacker: ${attacker.Handle} | Fatal: ${isFatal.toString()} | Weap Hash: ${weaponHash} | Melee: ${isMelee.toString()} | Is Player: ${IsPedAPlayer(victim.Handle)}`);
+            const killedAnimal = victim.isDead();
+            if (this.client.config.debug) Inform("Entity Damage", `Victim: ${victim.Handle} | Attacker: ${attacker.Handle} | Fatal: ${killedAnimal.toString()} | Is Player: ${IsPedAPlayer(victim.Handle)}`);
             if (this.client.config.debug) Inform("Entity Damage", `damage data - ${damaged} | ${boneId}`);
 
-            if (isFatal) {
+            if (killedAnimal) {
               const animalIndex = this.nearbyAnimals.findIndex(animal => animal.handle.Handle == victim.Handle);
               if (animalIndex != -1) {
                 // console.log(`Nearby Animals B4 - ${this.nearbyAnimals.length}`);
                 // console.log(`Dead Animals B4 - ${this.deadAnimals.length}`);
                 // console.log(`Killed Animal: ${JSON.stringify(this.nearbyAnimals[animalIndex])}`);
-                this.nearbyAnimals[animalIndex].blip.Sprite = BlipSprite.Dead;
+                // this.nearbyAnimals[animalIndex].blip.Sprite = BlipSprite.Dead;
                 this.deadAnimals.push(this.nearbyAnimals[animalIndex].handle)
                 this.nearbyAnimals.splice(animalIndex, 1);
                 // console.log(`Nearby Animals After - ${this.nearbyAnimals.length}`);
